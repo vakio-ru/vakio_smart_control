@@ -1,0 +1,91 @@
+
+<!-- table zwave_devices search -->
+<div>
+ [ <a href="#" onClick="$('#api_settings').toggle();return false;"><#LANG_SETUP#></a> ]
+</div>
+<div style="display:none" id='api_settings'>
+&nbsp;
+<form action="?" method="post" enctype="multipart/form-data" name="frmEdit" class="form-horizontal">
+  <fieldset>
+    <div class="form-group " style="margin-right: 0px;margin-left: 0px;">
+      <label class="col-lg-2 col-md-4" style="max-width: 240px;float: left;padding: 5px 10px 0px 0px;text-align: right;">
+        <#LANG_NEW_MQTT_CLIENT#>: <span style="color:red">*</span>
+      </label>
+      <div class="col-lg-10 col-md-8">
+        <input type="text" name="mqtt_client" value="<#MQTT_CLIENT#>" class="form-control">
+      </div>
+    </div>
+    <div class="form-group " style="margin-right: 0px;margin-left: 0px;">
+      <label class="col-lg-2 col-md-4" style="max-width: 240px;float: left;padding: 5px 10px 0px 0px;text-align: right;">
+        <#LANG_NEW_MQTT_HOST#>: <span style="color:red">*</span>
+      </label>
+      <div class="col-lg-10 col-md-8">
+        <input type="text" name="mqtt_host" value="<#MQTT_HOST#>" class="form-control">
+      </div>
+    </div>
+    <div class="form-group " style="margin-right: 0px;margin-left: 0px;">
+      <label class="col-lg-2 col-md-4" style="max-width: 240px;float: left;padding: 5px 10px 0px 0px;text-align: right;">
+        <#LANG_NEW_MQTT_PORT#>: <span style="color:red">*</span>
+      </label>
+      <div class="col-lg-10 col-md-8">
+        <input type="text" name="mqtt_port" value="<#MQTT_PORT#>" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-group " style="margin-right: 0px;margin-left: 0px;">
+      <label class="col-lg-2 col-md-4" style="max-width: 240px;float: left;padding: 5px 10px 0px 0px;text-align: right;">
+        <#LANG_NEW_MQTT_REQ_AUTH#>:
+      </label>
+      <div class="col-lg-10 col-md-8">
+        <input type="checkbox" style="height: 20px;width: 20px;" onchange="$('#mqtt_req_pass').toggle('slow');" name="mqtt_auth" value="1" [#if MQTT_AUTH="1" #] checked[#endif#]>
+      </div>
+    </div>
+
+    <div id="mqtt_req_pass" style="display:none;">
+      <div class="form-group " style="margin-right: 0px;margin-left: 0px;">
+        <label class="col-lg-2 col-md-4" style="max-width: 240px;float: left;padding: 5px 10px 0px 0px;text-align: right;">
+          <#LANG_NEW_MQTT_USERNAME#>:
+        </label>
+        <div class="col-lg-10 col-md-8">
+          <input type="text" name="mqtt_username" value="<#MQTT_USERNAME#>" class="form-control">
+        </div>
+      </div>
+      <div class="form-group " style="margin-right: 0px;margin-left: 0px;">
+        <label class="col-lg-2 col-md-4" style="max-width: 240px;float: left;padding: 5px 10px 0px 0px;text-align: right;">
+          <#LANG_NEW_MQTT_PASSWORD#>:
+        </label>
+        <div class="col-lg-10 col-md-8">
+          <input type="text" name="mqtt_password" value="<#MQTT_PASSWORD#>" class="form-control">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-right: 0px;margin-left: 0px;">
+      <div class="col-md-12 text-center">
+        <button type="submit" name="subm" value="Submit" class="btn btn-success">
+          <i class="glyphicon glyphicon-floppy-saved" style="font-size: 1.2rem;"></i>
+          <#LANG_UPDATE#>
+        </button>
+        <input type="hidden" name="view_mode" value="update_settings">
+        <input type="hidden" name="mode" value="update">
+      </div>
+    </div>
+  </fieldset>
+</form>
+</div>
+ <!-- action usual -->
+ <!-- table vakio_devices search -->
+ [#if VIEW_MODE="search_vakio_devices" || VIEW_MODE=""#]
+  [#inc vakio_devices_search_admin.html#]
+ [#endif VIEW_MODE#]
+ <!-- / table vakio_devices search -->
+ <!-- table vakio_devices edit -->
+ [#if VIEW_MODE="edit_vakio_devices"#]
+   [#inc vakio_devices_edit.html#]
+ [#endif VIEW_MODE#]
+ <!-- / table vakio_devices edit -->
+ <!-- table vakio_devices view --> 
+ [#if VIEW_MODE="view_vakio_devices"#]
+   [#inc vakio_devices_view.html#]
+ [#endif VIEW_MODE#]
+ <!-- / table vakio_devices view -->
