@@ -172,46 +172,46 @@ function admin(&$out) {
     }
   }
 }
-/**
-* FrontEnd
-*
-* Module frontend
-*
-* @access public
-*/
-function usual(&$out) {
- $this->admin($out);
-}
-/**
-* vakio_devices search
-*
-* @access public
-*/
- function search_vakio_devices(&$out) {
-  require(dirname(__FILE__).'/vakio_devices_search.inc.php');
- }
-/**
-* vakio_devices edit/add
-*
-* @access public
-*/
- function edit_vakio_devices(&$out, $id) {
-  require(dirname(__FILE__).'/vakio_devices_edit.inc.php');
- }
-/**
-* vakio_devices delete record
-*
-* @access public
-*/
- function delete_vakio_devices($id) {
-  $rec=SQLSelectOne("SELECT * FROM vakio_devices WHERE ID='$id'");
-  // some action for related tables
-  SQLExec("DELETE FROM vakio_devices WHERE ID='".$rec['ID']."'");
- }
- function processCycle() {
- $this->getConfig();
-  //to-do
- }
+  /**
+  * FrontEnd
+  *
+  * Module frontend
+  *
+  * @access public
+  */
+  function usual(&$out) {
+    $this->admin($out);
+  }
+  /**
+  * vakio_devices search
+  *
+  * @access public
+  */
+  function search_vakio_devices(&$out) {
+    require(dirname(__FILE__).'/vakio_devices_search.inc.php');
+  }
+  /**
+  * vakio_devices edit/add
+  *
+  * @access public
+  */
+  function edit_vakio_devices(&$out, $id) {
+    require(dirname(__FILE__).'/vakio_devices_edit.inc.php');
+  }
+  /**
+  * vakio_devices delete record
+  *
+  * @access public
+  */
+  function delete_vakio_devices($id) {
+    $rec=SQLSelectOne("SELECT * FROM vakio_devices WHERE ID='$id'");
+    // some action for related tables
+    SQLExec("DELETE FROM vakio_devices WHERE ID='".$rec['ID']."'");
+  }
+  function processCycle() {
+    $this->getConfig();
+      //to-do
+  }  
 /**
 * Install
 *
@@ -240,20 +240,20 @@ function usual(&$out) {
 *
 * @access private
 */
- function dbInstall($data) {
-/*
-vakio_devices - 
-*/
-  $data = <<<EOD
- vakio_devices: ID int(10) unsigned NOT NULL auto_increment
- vakio_devices: TITLE varchar(100) NOT NULL DEFAULT ''
- vakio_devices: VAKIO_DEVICE_TYPE varchar(255) NOT NULL DEFAULT ''
- vakio_devices: VAKIO_DEVICE_MQTT_TOPIC varchar(255) NOT NULL DEFAULT ''
- vakio_devices: VAKIO_DEVICE_STATE varchar(255) NOT NULL DEFAULT ''
- vakio_devices: UPDATED datetime
-EOD;
-  parent::dbInstall($data);
- }
+  function dbInstall($data) {
+    /*
+    vakio_devices - 
+    */
+    $data = <<<EOD
+      vakio_devices: ID int(10) unsigned NOT NULL auto_increment
+      vakio_devices: TITLE varchar(100) NOT NULL DEFAULT ''
+      vakio_devices: VAKIO_DEVICE_TYPE varchar(255) NOT NULL DEFAULT ''
+      vakio_devices: VAKIO_DEVICE_MQTT_TOPIC varchar(255) NOT NULL DEFAULT ''
+      vakio_devices: VAKIO_DEVICE_STATE varchar(255) NOT NULL DEFAULT ''
+      vakio_devices: UPDATED datetime
+      EOD;
+    parent::dbInstall($data);
+  }
 // --------------------------------------------------------------------
 }
 /*
