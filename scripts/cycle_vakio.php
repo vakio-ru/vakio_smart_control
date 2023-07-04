@@ -68,14 +68,15 @@ if (!$connect) {
 $query_list = array();
 $rec = SQLSelect("SELECT `VAKIO_DEVICE_MQTT_TOPIC` FROM `vakio_devices` WHERE 1");
 foreach($rec as $row) {
-   $query_list[] = $row[`VAKIO_DEVICE_MQTT_TOPIC`];
+   $query_list[] = $row['VAKIO_DEVICE_MQTT_TOPIC'];
 }
 unset($row);
 
 $total = count($query_list);
 echo date('H:i:s') . " Topics to watch: $query_list (Total: $total)\n";
+
 for ($i = 0; $i < $total; $i++) {
-   $path = trim($query_list[$i]) + "/#";
+   $path = trim($query_list[$i]) . "/#";
    echo date('H:i:s') . " Path: $path\n";
    $topics[$path] = array("qos" => 0, "function" => "procmsg");
 }
@@ -85,16 +86,15 @@ foreach ($topics as $k => $v) {
    $mqtt_client->subscribe($rec, 0);
 }
 $previousMillis = 0;
-
-
+$k = 0;
 while ($mqtt_client->proc())
 {
    /**
-    * Сюда скорее всего нужно будет добавить обработку OperationsQueue.
+    * Сюда скорее всего нужно будет добавить обработку OperationsQueue для работы отправки сообщений в топик.
     */
 
    $currentMillis = round(microtime(true) * 10000);
-
+   $k += 1;
    if ($currentMillis - $previousMillis > 10000) {
       $previousMillis = $currentMillis;
       setGlobal((str_replace('.php', '', basename(__FILE__))) . 'Run', time(), 1);
@@ -104,7 +104,11 @@ while ($mqtt_client->proc())
          $db->Disconnect();
          exit;
       }
-   } 
+   }
+   sleep(1);
+   if($k > 10) {
+      break;
+   }
 }
 
 
