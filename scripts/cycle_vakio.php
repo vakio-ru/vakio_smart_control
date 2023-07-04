@@ -1,36 +1,142 @@
 <?php
 chdir(dirname(__FILE__) . '/../');
+
 include_once("./config.php");
 include_once("./lib/loader.php");
 include_once("./lib/threads.php");
+
 set_time_limit(0);
 // connecting to database
 $db = new mysql(DB_HOST, '', DB_USER, DB_PASSWORD, DB_NAME);
+
 include_once("./load_settings.php");
 include_once(DIR_MODULES . "control_modules/control_modules.class.php");
+
 $ctl = new control_modules();
+
+set_time_limit(0);
+
+include_once(ROOT . "3rdparty/phpmqtt/phpMQTT.php");
 include_once(DIR_MODULES . 'vakio/vakio.class.php');
+
 $vakio_module = new vakio();
 $vakio_module->getConfig();
-$tmp = SQLSelectOne("SELECT ID FROM vakio_devices LIMIT 1");
+
+$tmp = SQLSelectOne("SELECT `ID` FROM `vakio_devices` LIMIT 1");
 if (!$tmp['ID'])
    exit; // no devices added -- no need to run this cycle
+
 echo date("H:i:s") . " running " . basename(__FILE__) . PHP_EOL;
 $latest_check=0;
 $checkEvery=2; // poll every 5 seconds
-while (1)
-{
-   setGlobal((str_replace('.php', '', basename(__FILE__))) . 'Run', time(), 1);
-   if ((time()-$latest_check)>$checkEvery) {
-    $latest_check=time();
-    echo date('Y-m-d H:i:s').' Polling devices...';
-    $vakio_module->processCycle();
-   }
-   if (file_exists('./reboot') || IsSet($_GET['onetime']))
-   {
-      $db->Disconnect();
-      exit;
-   }
-   sleep(1);
+
+if ($vakio_module->config["MQTT_CLIENT"]) {
+   $client_name = $mqtt->config['MQTT_CLIENT'];
+} else {
+   $client_name = "majordomo-client-" . random_int(1, 100);
 }
-DebMes("Unexpected close of cycle: " . basename(__FILE__));
+
+if ($mqtt->config['MQTT_AUTH']) {
+   $username = $mqtt->config['MQTT_USERNAME'];
+   $password = $mqtt->config['MQTT_PASSWORD'];
+}
+
+$host = 'localhost';
+
+if ($mqtt->config['MQTT_HOST']) {
+   $host = $mqtt->config['MQTT_HOST'];
+}
+
+if ($mqtt->config['MQTT_PORT']) {
+   $port = $mqtt->config['MQTT_PORT'];
+} else {
+   $port = 1883;
+}
+
+$mqtt_client = new Bluerhinos\phpMQTT($host, $port, $client_name);
+
+if ($mqtt->config['MQTT_AUTH']) {
+   $connect = $mqtt_client->connect(true, NULL, $username, $password);
+} else {
+   $connect = $mqtt_client->connect();
+}
+
+if (!$connect) {
+   exit(1);
+}
+
+$query_list = array();
+$rec = SQLSelect("SELECT `VAKIO_DEVICE_MQTT_TOPIC` FROM `vakio_devices` WHERE 1");
+foreach($rec as $row) {
+   $query_list[] = $row[`VAKIO_DEVICE_MQTT_TOPIC`];
+}
+unset($row);
+
+$total = count($query_list);
+echo date('H:i:s') . " Topics to watch: $query_list (Total: $total)\n";
+for ($i = 0; $i < $total; $i++) {
+   $path = trim($query_list[$i]) + "/#";
+   echo date('H:i:s') . " Path: $path\n";
+   $topics[$path] = array("qos" => 0, "function" => "procmsg");
+}
+foreach ($topics as $k => $v) {
+   echo date('H:i:s') . " Subscribing to: $k  \n";
+   $rec = array($k => $v);
+   $mqtt_client->subscribe($rec, 0);
+}
+$previousMillis = 0;
+
+
+while ($mqtt_client->proc())
+{
+   /**
+    * Сюда скорее всего нужно будет добавить обработку OperationsQueue.
+    */
+
+   $currentMillis = round(microtime(true) * 10000);
+
+   if ($currentMillis - $previousMillis > 10000) {
+      $previousMillis = $currentMillis;
+      setGlobal((str_replace('.php', '', basename(__FILE__))) . 'Run', time(), 1);
+
+      if (file_exists('./reboot') || IsSet($_GET['onetime'])) {
+         $mqtt_client->close();
+         $db->Disconnect();
+         exit;
+      }
+   } 
+}
+
+
+$mqtt_client->close();
+
+/**
+ * По полученному топику определяет устройство, которому обновляет поле VAKIO_DEVICE_STATE.
+ * @param mixed $topic Topic
+ * @param mixed $msg Message
+ * @return void
+ */
+function procmsg($topic, $msg) {
+   if (!isset($topic) || !isset($msg)) return false;
+    
+   $topic_parts = explode("/", $topic);
+   $topic_parts_count = count($topic_parts);
+   $topic_db_format = $topic_parts[0];
+   for ($i = 1; $i < $topic_parts_count - 1; $i++){
+      $topic_db_format = $topic_db_format . "/" . $topic_parts[$i];
+   }
+   $endpoint = $topic_parts[$topic_parts_count - 1];
+   $rec = SQLSelectOne("SELECT * FROM `vakio_devices` WHERE `VAKIO_DEVICE_MQTT_TOPIC` LIKE '$topic_db_format%'");
+   if(!$rec['ID']) {
+      echo date("Y-m-d H:i:s") . " Ignore received from {$topic} : $msg\n";
+      return false;
+   }
+   
+   $state = json_decode($rec["VAKIO_DEVICE_STATE"], true);
+   $state[$endpoint] = $msg;
+   $rec["VAKIO_DEVICE_STATE"] = json_encode($state);
+
+   SQLUpdate("vakio_devices", $rec);
+}
+
+$db->Disconnect(); // closing database connection
