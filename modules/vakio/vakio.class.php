@@ -119,13 +119,13 @@ function admin(&$out) {
   $out['MQTT_QUERY'] = $this->config['MQTT_QUERY'];
 
   if (!$out['MQTT_HOST']) {
-      $out['MQTT_HOST'] = 'localhost';
+    $out['MQTT_HOST'] = 'localhost';
   }
   if (!$out['MQTT_PORT']) {
-      $out['MQTT_PORT'] = '1883';
+    $out['MQTT_PORT'] = '1883';
   }
   if (!$out['MQTT_QUERY']) {
-      $out['MQTT_QUERY'] = 'vakio';
+    $out['MQTT_QUERY'] = 'vakio';
   }
 
   $out['MQTT_USERNAME'] = $this->config['MQTT_USERNAME'];
@@ -138,7 +138,6 @@ function admin(&$out) {
     global $mqtt_username;
     global $mqtt_password;
     global $mqtt_port;
-    global $mqtt_query;
     global $mqtt_auth;
 
 
@@ -146,13 +145,12 @@ function admin(&$out) {
     $this->config['MQTT_HOST'] = trim($mqtt_host);
     $this->config['MQTT_USERNAME'] = trim($mqtt_username);
     $this->config['MQTT_PASSWORD'] = trim($mqtt_password);
-    $this->config['MQTT_QUERY'] = trim($mqtt_query);
     $this->config['MQTT_AUTH'] = (int)$mqtt_auth;
     $this->config['MQTT_PORT'] = (int)$mqtt_port;
 
     $this->saveConfig();
 
-    // setGlobal('cycle_mqttControl', 'restart');
+    setGlobal('cycle_vakio', 'restart');
 
     $this->redirect("?");
   }
@@ -247,10 +245,9 @@ vakio_devices -
   $data = <<<EOD
  vakio_devices: ID int(10) unsigned NOT NULL auto_increment
  vakio_devices: TITLE varchar(100) NOT NULL DEFAULT ''
- vakio_devices: VAKIO_DEVICE_TYPE varchar(255) NOT NULL DEFAULT ''
+ vakio_devices: VAKIO_DEVICE_TYPE int(10) NOT NULL DEFAULT ''
  vakio_devices: VAKIO_DEVICE_MQTT_TOPIC varchar(255) NOT NULL DEFAULT ''
  vakio_devices: VAKIO_DEVICE_STATE varchar(255) NOT NULL DEFAULT ''
- vakio_devices: UPDATED datetime
 EOD;
   parent::dbInstall($data);
  }

@@ -7,25 +7,55 @@
   }
   $table_name='vakio_devices';
   $rec=SQLSelectOne("SELECT * FROM $table_name WHERE ID='$id'");
+
+  // Создаём список с наименованием типов устройств
+  $out['VAKIO_TYPES'] = array(
+    0 => array(
+      "TITLE"=>"Atmosphere",
+      "SELECTED"=>false,
+      "ID"=>0
+    ),
+    1 => array(
+      "TITLE"=>"Base Smart",
+      "SELECTED"=>false,
+      "ID"=>1
+    ),
+    2 => array(
+      "TITLE"=>"Kiv Pro/New",
+      "SELECTED"=>false,
+      "ID"=>2
+    ),
+    3 => array(
+      "TITLE"=>"Openair",
+      "SELECTED"=>false,
+      "ID"=>3
+    ),
+  );
+
+
   if ($this->mode=='update') {
     $ok=1;
     //updating '<%LANG_TITLE%>' (varchar, required)
     $rec['TITLE']=gr('title');
+    $rec['VAKIO_DEVICE_TYPE']=(int) gr('vakio_device_type');
+    $rec['VAKIO_DEVICE_MQTT_TOPIC']=gr('vakio_device_mqtt_topic');
+
     if ($rec['TITLE']=='') {
       $out['ERR_TITLE']=1;
       $ok=0;
     }
-    //updating 'VAKIO_DEVICE_TYPE' (varchar)
-    $rec['VAKIO_DEVICE_TYPE']=gr('vakio_device_type');
-    //updating 'VAKIO_DEVICE_MQTT_TOPIC' (varchar)
-    $rec['VAKIO_DEVICE_MQTT_TOPIC']=gr('vakio_device_mqtt_topic');
-    //updating 'VAKIO_DEVICE_STATE' (varchar)
+    if ($rec['VAKIO_DEVICE_TYPE'] > 3) {
+      $out['ERR_VAKIO_DEVICE_TYPE']=1;
+      $ok=0;
+    }
+    if ($rec['VAKIO_DEVICE_MQTT_TOPIC']=='') {
+      $out['ERR_VAKIO_DEVICE_MQTT_TOPIC']=1;
+      $ok=0;
+    }
+
+    $out["VAKIO_TYPES"][$rec["VAKIO_DEVICE_TYPE"]]["SELECTED"] = true;
     $rec['VAKIO_DEVICE_STATE']= "{}";
-    //updating '<%LANG_UPDATED%>' (datetime)
-    global $updated_date;
-    global $updated_minutes;
-    global $updated_hours;
-    $rec['UPDATED']=toDBDate($updated_date)." $updated_hours:$updated_minutes:00";
+    
     //UPDATING RECORD
     if ($ok) {
       if ($rec['ID']) {
@@ -38,31 +68,6 @@
     } else {
       $out['ERR']=1;
     }
-  }
-  if ($rec['UPDATED']!='') {
-   $tmp=explode(' ', $rec['UPDATED']);
-   $out['UPDATED_DATE']=fromDBDate($tmp[0]);
-   $tmp2=explode(':', $tmp[1]);
-   $updated_hours=$tmp2[0];
-   $updated_minutes=$tmp2[1];
-  }
-  for($i=0;$i<60;$i++) {
-   $title=$i;
-   if ($i<10) $title="0$i";
-   if ($title==$updated_minutes) {
-    $out['UPDATED_MINUTES'][]=array('TITLE'=>$title, 'SELECTED'=>1);
-   } else {
-    $out['UPDATED_MINUTES'][]=array('TITLE'=>$title);
-   }
-  }
-  for($i=0;$i<24;$i++) {
-   $title=$i;
-   if ($i<10) $title="0$i";
-   if ($title==$updated_hours) {
-    $out['UPDATED_HOURS'][]=array('TITLE'=>$title, 'SELECTED'=>1);
-   } else {
-    $out['UPDATED_HOURS'][]=array('TITLE'=>$title);
-   }
   }
   if (is_array($rec)) {
    foreach($rec as $k=>$v) {

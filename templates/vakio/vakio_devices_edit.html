@@ -13,23 +13,31 @@
 [#endif ID#]
 <!-- TITLE (varchar) -->
 <div class="form-group[#if ERR_TITLE#] has-error[#endif#]">
- <label for="title" class="col-lg-3 control-label">
- <#LANG_TITLE#>:
- (*)
- </label>
- <div class="col-lg-9"><input id="title" name="title" value="[#TITLE#]" type="text" class="form-control"></div>
+        <label for="title" class="col-lg-3 control-label">
+                <#LANG_TITLE#>:
+                (*)
+        </label>
+        <div class="col-lg-9">
+                <input id="title" name="title" value="[#TITLE#]" type="text" class="form-control">
+        </div>
 </div>
 <!-- VAKIO_DEVICE_TYPE (varchar) -->
 <div class="form-group[#if ERR_VAKIO_DEVICE_TYPE#] has-error[#endif#]">
- <label for="vakio_device_type" class="col-lg-3 control-label">
- VAKIO_DEVICE_TYPE:
- </label>
- <div class="col-lg-9"><input id="vakio_device_type" name="vakio_device_type" value="[#VAKIO_DEVICE_TYPE#]" type="text" class="form-control"></div>
+        <label for="vakio_device_type" class="col-lg-3 control-label">
+                Тип устройства: (*)
+        </label>
+        <div class="col-lg-9">
+                <select name="vakio_device_type" id="vakio_device_type" class="form-control">
+                        [#begin VAKIO_TYPES#]
+                        <option [#if SELECTED#]selected[#endif SELECTED#] value="[#ID#]">[#TITLE#]</option>
+                        [#end VAKIO_TYPES#]
+                </select>
+        </div>
 </div>
 <!-- VAKIO_DEVICE_MQTT_TOPIC (varchar) -->
 <div class="form-group[#if ERR_VAKIO_DEVICE_MQTT_TOPIC#] has-error[#endif#]">
  <label for="vakio_device_mqtt_topic" class="col-lg-3 control-label">
- VAKIO_DEVICE_MQTT_TOPIC:
+        MQTT топик: (*)
  </label>
  <div class="col-lg-9"><input id="vakio_device_mqtt_topic" name="vakio_device_mqtt_topic" value="[#VAKIO_DEVICE_MQTT_TOPIC#]" type="text" class="form-control"></div>
 </div>

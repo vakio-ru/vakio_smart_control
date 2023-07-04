@@ -39,9 +39,13 @@ if ($vakio_module->config["MQTT_CLIENT"]) {
 if ($mqtt->config['MQTT_AUTH']) {
    $username = $mqtt->config['MQTT_USERNAME'];
    $password = $mqtt->config['MQTT_PASSWORD'];
+} else {
+   $username = "";
+   $password = "";
 }
 
 $host = 'localhost';
+$host = 'test.mosquitto.org';
 
 if ($mqtt->config['MQTT_HOST']) {
    $host = $mqtt->config['MQTT_HOST'];
@@ -55,11 +59,7 @@ if ($mqtt->config['MQTT_PORT']) {
 
 $mqtt_client = new Bluerhinos\phpMQTT($host, $port, $client_name);
 
-if ($mqtt->config['MQTT_AUTH']) {
-   $connect = $mqtt_client->connect(true, NULL, $username, $password);
-} else {
-   $connect = $mqtt_client->connect();
-}
+$connect = $mqtt_client->connect(true, NULL, $username, $password);
 
 if (!$connect) {
    exit(1);
@@ -80,21 +80,17 @@ for ($i = 0; $i < $total; $i++) {
    echo date('H:i:s') . " Path: $path\n";
    $topics[$path] = array("qos" => 0, "function" => "procmsg");
 }
-foreach ($topics as $k => $v) {
-   echo date('H:i:s') . " Subscribing to: $k  \n";
-   $rec = array($k => $v);
-   $mqtt_client->subscribe($rec, 0);
-}
+
+$mqtt_client->subscribe($topics, 0);
 $previousMillis = 0;
-$k = 0;
+
 while ($mqtt_client->proc())
 {
    /**
     * Сюда скорее всего нужно будет добавить обработку OperationsQueue для работы отправки сообщений в топик.
     */
-
+   
    $currentMillis = round(microtime(true) * 10000);
-   $k += 1;
    if ($currentMillis - $previousMillis > 10000) {
       $previousMillis = $currentMillis;
       setGlobal((str_replace('.php', '', basename(__FILE__))) . 'Run', time(), 1);
@@ -104,10 +100,6 @@ while ($mqtt_client->proc())
          $db->Disconnect();
          exit;
       }
-   }
-   sleep(1);
-   if($k > 10) {
-      break;
    }
 }
 
@@ -122,7 +114,7 @@ $mqtt_client->close();
  */
 function procmsg($topic, $msg) {
    if (!isset($topic) || !isset($msg)) return false;
-    
+   
    $topic_parts = explode("/", $topic);
    $topic_parts_count = count($topic_parts);
    $topic_db_format = $topic_parts[0];
@@ -139,7 +131,7 @@ function procmsg($topic, $msg) {
    $state = json_decode($rec["VAKIO_DEVICE_STATE"], true);
    $state[$endpoint] = $msg;
    $rec["VAKIO_DEVICE_STATE"] = json_encode($state);
-
+   
    SQLUpdate("vakio_devices", $rec);
 }
 
