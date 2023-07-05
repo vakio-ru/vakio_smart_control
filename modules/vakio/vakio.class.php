@@ -140,7 +140,6 @@ function admin(&$out) {
     global $mqtt_port;
     global $mqtt_auth;
 
-
     $this->config['MQTT_CLIENT'] = trim($mqtt_client);
     $this->config['MQTT_HOST'] = trim($mqtt_host);
     $this->config['MQTT_USERNAME'] = trim($mqtt_username);

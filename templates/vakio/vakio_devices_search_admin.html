@@ -25,12 +25,27 @@
   <form action="?" method="post" name="frmList_vakio_devices" style="padding:0px" class="form">
     <table  align=center class="table table-striped">
       <tbody>
+        <tr>
+          <td>
+            <b>Наименование</b>
+          </td>
+          <td>
+            <b>Тип устройства</b>
+          </td>
+          <td>
+            <b>Топик</b>
+          </td>
+          <td>
+            <b>Состояние</b>
+          </td>
+          <td width="1%" nowrap>
+            <div></div>
+          </td>
+        </tr>
         [#begin RESULT#]
         <tr>
           <td>
-            <b>
-              [#TITLE#]
-            </b>
+            [#TITLE#]
           </td>
           <td>
             [#if VAKIO_DEVICE_TYPE!=""#]
@@ -49,13 +64,6 @@
           <td>
             [#if VAKIO_DEVICE_STATE!=""#]
               [#VAKIO_DEVICE_STATE#]
-            [#else#]
-              &nbsp;
-            [#endif#]
-          </td>
-          <td>
-            [#if UPDATED!=""#]
-              [#UPDATED#]
             [#else#]
               &nbsp;
             [#endif#]
