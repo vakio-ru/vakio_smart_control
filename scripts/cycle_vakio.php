@@ -122,7 +122,8 @@ function procmsg($topic, $msg) {
       $topic_db_format = $topic_db_format . "/" . $topic_parts[$i];
    }
    $endpoint = $topic_parts[$topic_parts_count - 1];
-   $rec = SQLSelectOne("SELECT * FROM `vakio_devices` WHERE `VAKIO_DEVICE_MQTT_TOPIC` LIKE '$topic_db_format%'");
+   $rec = SQLSelectOne("SELECT * FROM `vakio_devices` WHERE `VAKIO_DEVICE_MQTT_TOPIC`='$topic_db_format'");
+   print_r($rec);
    if(!$rec['ID']) {
       echo date("Y-m-d H:i:s") . " Ignore received from {$topic} : $msg\n";
       return false;

@@ -245,7 +245,7 @@ vakio_devices -
   $data = <<<EOD
  vakio_devices: ID int(10) unsigned NOT NULL auto_increment
  vakio_devices: TITLE varchar(100) NOT NULL DEFAULT ''
- vakio_devices: VAKIO_DEVICE_TYPE int(10) NOT NULL DEFAULT ''
+ vakio_devices: VAKIO_DEVICE_TYPE int(10) NOT NULL DEFAULT 0
  vakio_devices: VAKIO_DEVICE_MQTT_TOPIC varchar(255) NOT NULL DEFAULT ''
  vakio_devices: VAKIO_DEVICE_STATE varchar(255) NOT NULL DEFAULT ''
 EOD;
