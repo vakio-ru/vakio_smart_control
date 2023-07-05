@@ -158,14 +158,17 @@ function admin(&$out) {
   }
   if ($this->data_source=='vakio_devices' || $this->data_source=='') {
     if ($this->view_mode=='' || $this->view_mode=='search_vakio_devices') {
-    $this->search_vakio_devices($out);
+      $this->search_vakio_devices($out);
     }
     if ($this->view_mode=='edit_vakio_devices') {
-    $this->edit_vakio_devices($out, $this->id);
+      $this->edit_vakio_devices($out, $this->id);
+    }
+    if ($this->view_mode=='devices') {
+      $this->devices($out, $this->id);
     }
     if ($this->view_mode=='delete_vakio_devices') {
-    $this->delete_vakio_devices($this->id);
-    $this->redirect("?");
+      $this->delete_vakio_devices($this->id);
+      $this->redirect("?");
     }
   }
 }
@@ -186,6 +189,14 @@ function usual(&$out) {
 */
  function search_vakio_devices(&$out) {
   require(dirname(__FILE__).'/vakio_devices_search.inc.php');
+ }
+/**
+* vakio_devices search
+*
+* @access public
+*/
+ function devices(&$out) {
+  require(dirname(__FILE__).'/devices.inc.php');
  }
 /**
 * vakio_devices edit/add

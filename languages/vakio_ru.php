@@ -5,7 +5,8 @@ $dictionary=array(
 'NEW_MQTT_PORT'=>'Порт сервера',
 'NEW_MQTT_REQ_AUTH'=>'Требуется авторизация',
 'NEW_MQTT_USERNAME'=>'Имя пользователя',
-'NEW_MQTT_PASSWORD'=>'Пароль'
+'NEW_MQTT_PASSWORD'=>'Пароль',
+'DEVICES'=>'Устройства'
 );
 
 foreach ($dictionary as $k=>$v) {

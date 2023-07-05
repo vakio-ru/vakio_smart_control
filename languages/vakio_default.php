@@ -6,7 +6,8 @@ $dictionary=array(
 'NEW_MQTT_QUERY'=>'Subscription topic',
 'NEW_MQTT_REQ_AUTH'=>'authorization required',
 'NEW_MQTT_USERNAME'=>'Username',
-'NEW_MQTT_PASSWORD'=>'Password'
+'NEW_MQTT_PASSWORD'=>'Password',
+'DEVICES'=>'Devices'
 );
 
 foreach ($dictionary as $k=>$v) {
