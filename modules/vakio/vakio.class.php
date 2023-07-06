@@ -132,16 +132,6 @@ function admin(&$out) {
   $out['MQTT_PASSWORD'] = $this->config['MQTT_PASSWORD'];
   $out['MQTT_AUTH'] = $this->config['MQTT_AUTH'];
 
-  if (gr('ajax')) {
-    $device = gr('device');
-    $data = array(
-      "id" => 2,
-      "not_id" => 3,
-      "device" => $device
-    );
-    
-    echo json_encode($data);
-  }
  
   if ($this->view_mode=='update_settings') {
     global $mqtt_client;
@@ -191,7 +181,19 @@ function admin(&$out) {
 * @access public
 */
 function usual(&$out) {
- $this->admin($out);
+  if ($this->ajax) {
+    $device = gr('device');
+    $data = array(
+      "id" => 2,
+      "not_id" => 3,
+      "device" => $device
+    );
+    $result["DATA"] = $data;
+    echo json_encode($data);
+    exit;
+  }
+
+  $this->admin($out);
 }
 /**
 * vakio_devices search
