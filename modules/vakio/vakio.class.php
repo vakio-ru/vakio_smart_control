@@ -132,6 +132,17 @@ function admin(&$out) {
   $out['MQTT_PASSWORD'] = $this->config['MQTT_PASSWORD'];
   $out['MQTT_AUTH'] = $this->config['MQTT_AUTH'];
 
+  if (gr('ajax')) {
+    $device = gr('device');
+    $data = array(
+      "id" => 2,
+      "not_id" => 3,
+      "device" => $device
+    );
+    
+    echo json_encode($data);
+  }
+ 
   if ($this->view_mode=='update_settings') {
     global $mqtt_client;
     global $mqtt_host;
@@ -190,36 +201,36 @@ function usual(&$out) {
  function search_vakio_devices(&$out) {
   require(dirname(__FILE__).'/vakio_devices_search.inc.php');
  }
-/**
-* vakio_devices search
-*
-* @access public
-*/
- function devices(&$out) {
-  require(dirname(__FILE__).'/devices.inc.php');
- }
-/**
-* vakio_devices edit/add
-*
-* @access public
-*/
- function edit_vakio_devices(&$out, $id) {
-  require(dirname(__FILE__).'/vakio_devices_edit.inc.php');
- }
-/**
-* vakio_devices delete record
-*
-* @access public
-*/
- function delete_vakio_devices($id) {
-  $rec=SQLSelectOne("SELECT * FROM vakio_devices WHERE ID='$id'");
-  // some action for related tables
-  SQLExec("DELETE FROM vakio_devices WHERE ID='".$rec['ID']."'");
- }
- function processCycle() {
- $this->getConfig();
-  //to-do
- }
+  /**
+  * vakio_devices search
+  *
+  * @access public
+  */
+  function devices(&$out) {
+    require(dirname(__FILE__).'/devices.inc.php');
+  }
+  /**
+  * vakio_devices edit/add
+  *
+  * @access public
+  */
+  function edit_vakio_devices(&$out, $id) {
+    require(dirname(__FILE__).'/vakio_devices_edit.inc.php');
+  }
+  /**
+  * vakio_devices delete record
+  *
+  * @access public
+  */
+  function delete_vakio_devices($id) {
+    $rec=SQLSelectOne("SELECT * FROM vakio_devices WHERE ID='$id'");
+    // some action for related tables
+    SQLExec("DELETE FROM vakio_devices WHERE ID='".$rec['ID']."'");
+  }
+  function processCycle() {
+    $this->getConfig();
+      //to-do
+  }
 /**
 * Install
 *

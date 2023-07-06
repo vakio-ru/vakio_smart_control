@@ -9,8 +9,68 @@
     .thumbnail .table td{
         vertical-align: middle;
     }
+    .material-switch > input[type="checkbox"] {
+        display: none;   
+    }
+    
+    .material-switch > label {
+        cursor: pointer;
+        height: 0px;
+        position: relative; 
+        width: 40px;  
+    }
+    
+    .material-switch > label::before {
+        background: rgb(0, 0, 0);
+        box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        content: '';
+        height: 16px;
+        margin-top: -8px;
+        position:absolute;
+        opacity: 0.3;
+        transition: all 0.4s ease-in-out;
+        width: 40px;
+    }
+    .material-switch > label::after {
+        background: rgb(255, 255, 255);
+        border-radius: 16px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+        content: '';
+        height: 24px;
+        left: -4px;
+        margin-top: -8px;
+        position: absolute;
+        top: -4px;
+        transition: all 0.3s ease-in-out;
+        width: 24px;
+    }
+    .material-switch > input[type="checkbox"]:checked + label::before {
+        background: inherit;
+        opacity: 0.5;
+    }
+    .material-switch > input[type="checkbox"]:checked + label::after {
+        background: inherit;
+        left: 20px;
+    }
     
 </style>
+
+<script>
+    function test() {
+        var url='<#ROOTHTML#>ajax/devices.html?device='+1;
+        console.log(url);
+        // $('#'+result_id).html('...');
+        $.ajax({
+            url: url
+        }).done(function(data) {
+            // $('#'+result_id).html(data);
+            console.log(data);
+            console.log("done");
+        });
+        return false;
+    }
+</script>
 
 <div class="container-fluid">
     <div class="devices">
@@ -18,7 +78,8 @@
             <div class="thumbnail">
                 <img src="../templates/vakio/img/atmosphere.png" alt="device-img">
                 <div class="caption">
-                    <h3>Atmosphere</h3>
+                    <h3 onclick="test()">Custom name 1</h3>
+                    <h5>VAKIO Atmosphere</h5>
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#sensors1">Датчики</a></li>
                     </ul>
@@ -49,13 +110,23 @@
             <div class="thumbnail">
                 <img src="../templates/vakio/img/kiv.png" alt="device-img">
                 <div class="caption">
-                    <h3>Kiv</h3>
+                    <h3>Custom name 2</h3>
+                    <h5>VAKIO KIV</h5>
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#control2">Управление</a></li>
                     </ul>
                     <div class="tab-content">
                         <table class="table table-striped">
                             <tbody>
+                                <tr>
+                                    <td>Состояние</td>
+                                    <td>
+                                        <div class="material-switch pull-right">
+                                            <input id="someSwitchOptionPrimary1" name="someSwitchOption001" type="checkbox"/>
+                                            <label for="someSwitchOptionPrimary1" class="label-primary"></label>
+                                        </div>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td>Заслонка</td>
                                     <td>
@@ -67,15 +138,6 @@
                                         </select>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>Состояние</td>
-                                    <td>
-                                        <select name="" id="" class="form-control">
-                                            <option value="on">On</option>
-                                            <option value="off">Off</option>
-                                        </select>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -84,9 +146,10 @@
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
             <div class="thumbnail">
-                <img src="../templates/vakio/img/kiv.png" alt="device-img">
+                <img src="../templates/vakio/img/openair.png" alt="device-img">
                 <div class="caption">
-                    <h3>OpenAir</h3>
+                    <h3>Custom name 3</h3>
+                    <h5>VAKIO Openair</h5>
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#sensors3">Датчики</a></li>
                         <li><a data-toggle="tab" href="#control3">Управление</a></li>
@@ -103,16 +166,21 @@
                                         <td>Влажность</td>
                                         <td>33%</td>
                                     </tr>
-                                    <tr>
-                                        <td>Угл.газ</td>
-                                        <td>1100 PPM</td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div id="control3" class="tab-pane fade">
                             <table class="table table-striped">
                                 <tbody>
+                                    <tr>
+                                        <td>Состояние</td>
+                                        <td>
+                                            <div class="material-switch pull-right">
+                                                <input id="someSwitchOptionPrimary2" name="someSwitchOption002" type="checkbox"/>
+                                                <label for="someSwitchOptionPrimary2" class="label-primary"></label>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td>Скорость</td>
                                         <td>
@@ -137,15 +205,6 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Состояние</td>
-                                        <td>
-                                            <select name="" id="" class="form-control">
-                                                <option value="on">On</option>
-                                                <option value="off">Off</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
                                         <td>Режим</td>
                                         <td>
                                             <select name="" id="" class="form-control">
@@ -165,7 +224,8 @@
             <div class="thumbnail">
                 <img src="../templates/vakio/img/base_smart.png" alt="device-img">
                 <div class="caption">
-                    <h3>Base Smart</h3>
+                    <h3>Custom name 4</h3>
+                    <h5>VAKIO Base Smart</h5>
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#control4">Управление</a></li>
                     </ul>
@@ -173,6 +233,15 @@
                         <div id="control4" class="tab-pane fade in active">
                             <table class="table table-striped">
                                 <tbody>
+                                    <tr>
+                                        <td>Состояние</td>
+                                        <td>
+                                            <div class="material-switch pull-right">
+                                                <input id="someSwitchOptionPrimary3" name="someSwitchOption003" type="checkbox"/>
+                                                <label for="someSwitchOptionPrimary3" class="label-primary"></label>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td>Скорость</td>
                                         <td>
@@ -182,15 +251,6 @@
                                                 <option value="3">3</option>
                                                 <option value="4">4</option>
                                                 <option value="5">5</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Состояние</td>
-                                        <td>
-                                            <select name="" id="" class="form-control">
-                                                <option value="on">On</option>
-                                                <option value="off">Off</option>
                                             </select>
                                         </td>
                                     </tr>
