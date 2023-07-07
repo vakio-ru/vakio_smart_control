@@ -76,264 +76,97 @@
 
 <div class="container-fluid">
     <div class="devices">
-        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-            <div class="thumbnail">
-                <img src="../templates/vakio/img/atmosphere.png" alt="device-img">
-                <div class="caption">
-                    <h3 onclick="test()">Custom name 1</h3>
-                    <h5>VAKIO Atmosphere</h5>
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#sensors1">Датчики</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div id="sensors1" class="tab-pane fade in active">
-                            <table class="table table-striped">
-                                <tbody>
-                                    <tr>
-                                        <td>Температура</td>
-                                        <td>26℃</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Влажность</td>
-                                        <td>33%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Угл.газ</td>
-                                        <td>1100 PPM</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-            <div class="thumbnail">
-                <img src="../templates/vakio/img/kiv.png" alt="device-img">
-                <div class="caption">
-                    <h3>Custom name 2</h3>
-                    <h5>VAKIO KIV</h5>
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#control2">Управление</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <table class="table table-striped">
-                            <tbody>
-                                <tr>
-                                    <td>Состояние</td>
-                                    <td>
-                                        <div class="material-switch pull-right">
-                                            <input id="someSwitchOptionPrimary1" name="someSwitchOption001" type="checkbox"/>
-                                            <label for="someSwitchOptionPrimary1" class="label-primary"></label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Заслонка</td>
-                                    <td>
-                                        <select name="" id="" class="form-control">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-            <div class="thumbnail">
-                <img src="../templates/vakio/img/openair.png" alt="device-img">
-                <div class="caption">
-                    <h3>Custom name 3</h3>
-                    <h5>VAKIO Openair</h5>
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#sensors3">Датчики</a></li>
-                        <li><a data-toggle="tab" href="#control3">Управление</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div id="sensors3" class="tab-pane fade in active">
-                            <table class="table table-striped">
-                                <tbody>
-                                    <tr>
-                                        <td>Температура</td>
-                                        <td>26℃</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Влажность</td>
-                                        <td>33%</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div id="control3" class="tab-pane fade">
-                            <table class="table table-striped">
-                                <tbody>
-                                    <tr>
-                                        <td>Состояние</td>
-                                        <td>
-                                            <div class="material-switch pull-right">
-                                                <input id="someSwitchOptionPrimary2" name="someSwitchOption002" type="checkbox"/>
-                                                <label for="someSwitchOptionPrimary2" class="label-primary"></label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Скорость</td>
-                                        <td>
-                                            <select name="" id="" class="form-control">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Заслонка</td>
-                                        <td>
-                                            <select name="" id="" class="form-control">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Режим</td>
-                                        <td>
-                                            <select name="" id="" class="form-control">
-                                                <option value="super_auto">Автоматический</option>
-                                                <option value="manual">Ручной</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-            <div class="thumbnail">
-                <img src="../templates/vakio/img/base_smart.png" alt="device-img">
-                <div class="caption">
-                    <h3>Custom name 4</h3>
-                    <h5>VAKIO Base Smart</h5>
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#control4">Управление</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div id="control4" class="tab-pane fade in active">
-                            <table class="table table-striped">
-                                <tbody>
-                                    <tr>
-                                        <td>Состояние</td>
-                                        <td>
-                                            <div class="material-switch pull-right">
-                                                <input id="someSwitchOptionPrimary3" name="someSwitchOption003" type="checkbox"/>
-                                                <label for="someSwitchOptionPrimary3" class="label-primary"></label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Скорость</td>
-                                        <td>
-                                            <select name="" id="" class="form-control">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Режим</td>
-                                        <td>
-                                            <select name="" id="" class="form-control">
-                                                <option value="super_auto">Автоматический</option>
-                                                <option value="manual">Ручной</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         [#begin DEVICES#]
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
             <div class="thumbnail">
-                <img src="../templates/vakio/img/base_smart.png" alt="device-img">
+                <img src="../templates/vakio/img/[#IMG_NAME#]" alt="device-img">
                 <div class="caption">
                     <h3>[#TITLE#]</h3>
-                    <h5>[#DEVICE_TYPE.NAME#]</h5>
+                    <h5>[#NAME#]</h5>
                     <ul class="nav nav-tabs">
-                        [#if DEVICE_TYPE.IS_HAS_SENSORS#]
+                        [#if IS_HAS_SENSORS>0#]
                         <li class="active"><a data-toggle="tab" href="#sensors[#ID#]">Датчики</a></li>
                         [#endif#]
-                        [#if DEVICE_TYPE.IS_HAS_CONTROLS#]
-                        <li><a data-toggle="tab" href="#control[#ID#]">Управление</a></li>
+                        [#if IS_HAS_CONTROLS>0#]
+                        <li [#if IS_HAS_SENSORS==0#]class="active"[#endif#]><a data-toggle="tab" href="#control[#ID#]">Управление</a></li>
                         [#endif#]
                     </ul>
                     <div class="tab-content">
-                        [#if DEVICE_TYPE.IS_HAS_SENSORS#]
+                        [#if IS_HAS_SENSORS>0#] 
                         <div id="sensors[#ID#]" class="tab-pane fade in active">
                             <table class="table table-striped">
                                 <tbody>
-                                    [#if VAKIO_DEVICE_STATE.TEMP#]
                                     <tr>
                                         <td>Температура</td>
-                                        <td>[#VAKIO_DEVICE_STATE.TEMP#]℃</td>
+                                        <td>
+                                            [#if TEMP#]
+                                                [#TEMP#] ℃
+                                            [#else#]
+                                                —
+                                            [#endif#]
+                                        </td>
                                     </tr>
-                                    [#endif#]
-                                    [#if VAKIO_DEVICE_STATE.HUD]
                                     <tr>
                                         <td>Влажность</td>
-                                        <td>[#VAKIO_DEVICE_STATE.HUD#]%</td>
+                                        <td>
+                                            [#if HUD#]
+                                                [#HUD#] %
+                                            [#else#]
+                                                —
+                                            [#endif#]
+                                        </td>
                                     </tr>
-                                    [#endif]
-                                    [#if DEVICE_TYPE.IS_HAS_CO2#]
-                                        [#if  VAKIO_DEVICE_STATE.CO2#]
-                                        <tr>
-                                            <td>Угл.газ</td>
-                                            <td>[#VAKIO_DEVICE_STATE.CO2#] PPM</td>
-                                        </tr>
-                                        [#endif#]
+                                    [#if IS_HAS_CO2>0#]
+                                    <tr>
+                                        <td>CO2</td>
+                                        <td>
+                                            [#if CO2#]
+                                                [#CO2#] PPM
+                                            [#else#]
+                                            —
+                                            [#endif#]
+                                        </td>
+                                    </tr>
                                     [#endif#]
+                                    
                                 </tbody>
                             </table>
                         </div>
                         [#endif#]
-                        [#if DEVICE_TYPE.IS_HAS_CONTROLS#]
-                        <div id="control[#ID#]" class="tab-pane fade">
+                        [#if IS_HAS_CONTROLS>0#]
+                        <div id="control[#ID#]" class="tab-pane fade [#if IS_HAS_SENSORS==0#]in active[#endif#]">
                             <table class="table table-striped">
                                 <tbody>
                                     <tr>
                                         <td>Состояние</td>
                                         <td>
                                             <div class="material-switch pull-right">
-                                                <input id="someSwitchOptionPrimary2" name="someSwitchOption002" type="checkbox"/>
-                                                <label for="someSwitchOptionPrimary2" class="label-primary"></label>
+                                                <input id="state[#ID#]" name="state[#ID#]" type="checkbox" [#if STATE=="on"#]checked[#endif#]/>
+                                                <label for="stateSwitcher[#ID#]" class="label-primary"></label>
                                             </div>
                                         </td>
                                     </tr>
+                                    
+                                    [#if VAKIO_DEVICE_TYPE!=1#]
+                                    <tr>
+                                        <td>Заслонка</td>
+                                        <td>
+                                            <select name="gate[#ID#]" id="gate[#ID#]" class="form-control">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    [#endif#]
+
+                                    [#if VAKIO_DEVICE_TYPE==3#]
                                     <tr>
                                         <td>Скорость</td>
                                         <td>
-                                            <select name="" id="" class="form-control">
+                                            <select name="speed[#ID#]" id="speed[#ID#]" class="form-control">
+                                                <option value="0">0</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -343,25 +176,47 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Заслонка</td>
+                                        <td>Режим</td>
                                         <td>
-                                            <select name="" id="" class="form-control">
+                                            <select name="workmode[#ID#]" id="workmode[#ID#]" class="form-control">
+                                                <option value="super_auto">Авто</option>
+                                                <option value="manual">Ручной</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    [#endif#]
+
+                                    [#if VAKIO_DEVICE_TYPE==1#]
+                                    <tr>
+                                        <td>Скорость</td>
+                                        <td>
+                                            <select name="speed[#ID#]" id="speed[#ID#]" class="form-control">
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
                                                 <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
                                             </select>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Режим</td>
                                         <td>
-                                            <select name="" id="" class="form-control">
-                                                <option value="super_auto">Автоматический</option>
-                                                <option value="manual">Ручной</option>
+                                            <select name="workmode[#ID#]" id="workmode[#ID#]" class="form-control">
+                                                <option value="inflow">Приток</option>
+                                                <option value="inflow_max">Приток MAX</option>    
+                                                <option value="recuperator">Рекуперация лето</option>    
+                                                <option value="winter">Рекуперация зима</option>    
+                                                <option value="outflow">Вытяжка</option>    
+                                                <option value="outflow_max">Вытяжка MAX</option>    
+                                                <option value="night">Ночной </option>  
                                             </select>
                                         </td>
                                     </tr>
+                                    [#endif#]
+                                    
                                 </tbody>
                             </table>
                         </div>
@@ -373,3 +228,5 @@
         [#end DEVICES#]
     </div>
 </div>
+
+                                                
