@@ -58,16 +58,17 @@
 
 <script>
     function test() {
-        var url='<#ROOTHTML#>ajax/vakio.html?device=1';
+        var url='<#ROOTHTML#>ajax/vakio.html?op=public&id=test&topic=test&value=test';
         console.log(url);
         // $('#'+result_id).html('...');
         $.ajax({
             type: 'GET',
             url: url,
             success: function(data){
+                data = data.toString().replace(/<!--.*?-->/gs, ""); // Удаление PERFOMANCE REPORT
                 var obj=jQuery.parseJSON(data);
                 console.log(obj);
-                //$('#devicepreview[#ID#]').html(obj.HTML);
+            
             }
         });
         return false;
@@ -80,6 +81,7 @@
             type: "GET",
             url: "<#ROOTHTML#>ajax/vakio.html?op=poll",
             success : function(data){
+                data = data.toString().replace(/<!--.*?-->/gs, ""); // Удаление PERFOMANCE REPORT
                 var obj=jQuery.parseJSON(data).devices;
                 //console.log(obj.devices);
                 for (var i of Object.keys(obj)) {

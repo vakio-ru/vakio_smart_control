@@ -86,10 +86,14 @@ $previousMillis = 0;
 
 while ($mqtt_client->proc())
 {
-   /**
-    * Сюда скорее всего нужно будет добавить обработку OperationsQueue для работы отправки сообщений в топик.
-    */
-   
+   $operations = checkOperationsQueue('public');
+   for ($i=0; $i<count($operations); $i++) {
+      $topic = "vakio/" . $operations["DATANAME"];
+      $value = $operations["DATAVALUE"];
+      $mqtt_client->publish($topic, $value, 0, true);
+      print_r($operations[DATANAME]);
+      print_r('Publish to ' . $topic . ' value = ' . $value);
+   }
    $currentMillis = round(microtime(true) * 10000);
    if ($currentMillis - $previousMillis > 10000) {
       $previousMillis = $currentMillis;
@@ -123,7 +127,7 @@ function procmsg($topic, $msg) {
    }
    $endpoint = $topic_parts[$topic_parts_count - 1];
    $rec = SQLSelectOne("SELECT * FROM `vakio_devices` WHERE `VAKIO_DEVICE_MQTT_TOPIC`='$topic_db_format'");
-   print_r($rec);
+   
    if(!$rec['ID']) {
       echo date("Y-m-d H:i:s") . " Ignore received from {$topic} : $msg\n";
       return false;

@@ -184,7 +184,7 @@ function usual(&$out) {
   if ($this->ajax) {
     $op = gr('op');
     $data = array();
-    if (isset($op) && $op=="poll") {
+    if ($op=="poll") {
       $res = SQLSelect("SELECT * FROM `vakio_devices`");
       $devices = array();
       for ($i=0; $i<count($res); $i++) {
@@ -193,9 +193,20 @@ function usual(&$out) {
       }
       $data["devices"] = $devices;
     }
-
+    elseif ($op=="public") {
+      $id = gr('topic');
+      $topic = gr('topic');
+      $value = gr('value');
+      if (!isset($topic) || !isset($value) || !isset($id)) {
+        return;
+      }
+      // Формировать топик по запросу в БД. VAKIO_DEVICE_TOPIC + $topic (н-р)
+      addToOperationsQueue('public', $topic, $value);
+      // $data = checkOperationsQueue('public');
+      // print_r($data);
+    }
     echo json_encode($data);
-    exit;
+    return;
   }
 
   $this->admin($out);
