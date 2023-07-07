@@ -8,16 +8,6 @@ if ($this->owner->name=='panel') {
     $out['CONTROLPANEL']=1;
 }
 
-
-/* 
-inflow - Приток
-inflow_max - Приток MAX
-recuperator - Рекуперация лето
-winter - Рекуперация зима
-outflow - Вытяжка
-outflow_max - Вытяжка MAX
-night - Ночной 
-*/
 $device_types = array(
     0 => array(
         "NAME"=>"VAKIO Atmosphere",

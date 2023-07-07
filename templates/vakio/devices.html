@@ -62,8 +62,8 @@
         console.log(url);
         // $('#'+result_id).html('...');
         $.ajax({
-            url: url,
             type: 'GET',
+            url: url,
             success: function(data){
                 var obj=jQuery.parseJSON(data);
                 console.log(obj);
@@ -72,6 +72,34 @@
         });
         return false;
     }
+</script>
+
+<script>
+    setInterval(function(){
+        $.ajax({
+            type: "GET",
+            url: "<#ROOTHTML#>ajax/vakio.html?op=poll",
+            success : function(data){
+                var obj=jQuery.parseJSON(data).devices;
+                //console.log(obj.devices);
+                for (var i of Object.keys(obj)) {
+                    for (var j of Object.keys(obj[i])) {
+                        let id = "#"+j+i;
+                        if (["temp", "hud", "co2"].includes(j)){
+                            $(id).text(obj[i][j]);
+                            continue;
+                        }
+                        if (j == "state"){
+                            $(id).prop('checked', obj[i][j]=="on");
+                            continue;
+                        }
+                        $(id).val(obj[i][j]);
+                        
+                    }
+                }
+            }
+        });
+    }, 3000); //try update every 3 seconds
 </script>
 
 <div class="container-fluid">
@@ -99,32 +127,41 @@
                                     <tr>
                                         <td>Температура</td>
                                         <td>
+                                            <span id="temp[#ID#]">
                                             [#if TEMP#]
-                                                [#TEMP#] ℃
+                                                [#TEMP#] 
                                             [#else#]
                                                 —
                                             [#endif#]
+                                            </span>
+                                            ℃
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Влажность</td>
                                         <td>
+                                            <span id="hud[#ID#]">
                                             [#if HUD#]
-                                                [#HUD#] %
+                                                [#HUD#]
                                             [#else#]
                                                 —
                                             [#endif#]
+                                            </span>
+                                            %
                                         </td>
                                     </tr>
                                     [#if IS_HAS_CO2>0#]
                                     <tr>
                                         <td>CO2</td>
                                         <td>
+                                            <span id="co2[#ID#]">
                                             [#if CO2#]
-                                                [#CO2#] PPM
+                                                [#CO2#]
                                             [#else#]
                                             —
                                             [#endif#]
+                                            </span>
+                                            PPM
                                         </td>
                                     </tr>
                                     [#endif#]
@@ -142,7 +179,7 @@
                                         <td>
                                             <div class="material-switch pull-right">
                                                 <input id="state[#ID#]" name="state[#ID#]" type="checkbox" [#if STATE=="on"#]checked[#endif#]/>
-                                                <label for="stateSwitcher[#ID#]" class="label-primary"></label>
+                                                <label for="state[#ID#]" class="label-primary"></label>
                                             </div>
                                         </td>
                                     </tr>

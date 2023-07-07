@@ -182,26 +182,18 @@ function admin(&$out) {
 */
 function usual(&$out) {
   if ($this->ajax) {
-    $device = gr('device');
-    
-    // $result=SQLSelect("SELECT * FROM `vakio_devices`");
-    // for ($i=0; $i<count($result); $i++) {
-    //   $device_type = $device_types[$result[$i]['VAKIO_DEVICE_TYPE']];
-    //   $result[$i]['DEVICE_TYPE'] = $device_type;
-    //   $device_state = array_change_key_case(json_decode($result[$i]['VAKIO_DEVICE_STATE'], true), CASE_UPPER);
-    //   unset($result[$i]['VAKIO_DEVICE_STATE']);
-    //   foreach ($device_state as $key => $value) {
-    //     $result[$i][$key] = $value;
-    //   }
-    // }
-    // $data = $result;
+    $op = gr('op');
+    $data = array();
+    if (isset($op) && $op=="poll") {
+      $res = SQLSelect("SELECT * FROM `vakio_devices`");
+      $devices = array();
+      for ($i=0; $i<count($res); $i++) {
+        $id = $res[$i]["ID"];
+        $devices[$id] = json_decode($res[$i]['VAKIO_DEVICE_STATE'], true);
+      }
+      $data["devices"] = $devices;
+    }
 
-    $data = array(
-      "id" => 2,
-      "not_id" => 3,
-      "device" => $device
-    );
-    $result["DATA"] = $data;
     echo json_encode($data);
     exit;
   }
