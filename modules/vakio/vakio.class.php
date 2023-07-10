@@ -190,20 +190,29 @@ function usual(&$out) {
       for ($i=0; $i<count($res); $i++) {
         $id = $res[$i]["ID"];
         $devices[$id] = json_decode($res[$i]['VAKIO_DEVICE_STATE'], true);
+        if (isset($devices[$id]["workmode"]) && ($devices[$id]["workmode"] == "inflow_max" || $devices[$id]["workmode"] == "outflow_max")) {
+          $devices[$id]["speed"] = "7";
+        }
+        if (isset($devices[$id]["gate"]) && isset($devices[$id]["speed"]) && intval($devices[$id]["speed"])>0) {
+          $devices[$id]["gate"] = "4";
+        }
       }
       $data["devices"] = $devices;
     }
     elseif ($op=="public") {
-      $id = gr('topic');
-      $topic = gr('topic');
+      $id = gr('id');
+      $topic_endpoint = gr('topic');
       $value = gr('value');
-      if (!isset($topic) || !isset($value) || !isset($id)) {
+      if (!isset($topic_endpoint) || !isset($value) || !isset($id)) {
         return;
       }
-      // Формировать топик по запросу в БД. VAKIO_DEVICE_TOPIC + $topic (н-р)
+
+      $rec=SQLSelectOne("SELECT * FROM vakio_devices WHERE ID='$id'");
+      // Формирование топика по запросу в БД (По AJAX приходит только конечная точка, топик определяется по ID устройства)
+      $topic = $rec["VAKIO_DEVICE_MQTT_TOPIC"] . "/" . $topic_endpoint;
+      // Добавление в очередь, которая обрабатывается в цикле
       addToOperationsQueue('public', $topic, $value);
-      // $data = checkOperationsQueue('public');
-      // print_r($data);
+      
     }
     echo json_encode($data);
     return;

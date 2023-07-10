@@ -1,4 +1,7 @@
 <?php
+
+use function PHPSTORM_META\type;
+
 chdir(dirname(__FILE__) . '/../');
 
 include_once("./config.php");
@@ -81,6 +84,8 @@ for ($i = 0; $i < $total; $i++) {
    $topics[$path] = array("qos" => 0, "function" => "procmsg");
 }
 
+// SQLExec("UPDATE `vakio_devices` SET `VAKIO_DEVICE_STATE`='{}'");
+
 $mqtt_client->subscribe($topics, 0);
 $previousMillis = 0;
 
@@ -88,11 +93,10 @@ while ($mqtt_client->proc())
 {
    $operations = checkOperationsQueue('public');
    for ($i=0; $i<count($operations); $i++) {
-      $topic = "vakio/" . $operations["DATANAME"];
-      $value = $operations["DATAVALUE"];
+      $topic = $operations[$i]["DATANAME"];
+      $value = $operations[$i]["DATAVALUE"];
+      
       $mqtt_client->publish($topic, $value, 0, true);
-      print_r($operations[DATANAME]);
-      print_r('Publish to ' . $topic . ' value = ' . $value);
    }
    $currentMillis = round(microtime(true) * 10000);
    if ($currentMillis - $previousMillis > 10000) {

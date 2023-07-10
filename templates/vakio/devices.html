@@ -57,22 +57,31 @@
 </style>
 
 <script>
-    function test() {
-        var url='<#ROOTHTML#>ajax/vakio.html?op=public&id=test&topic=test&value=test';
-        console.log(url);
-        // $('#'+result_id).html('...');
+    function publish(id, topic, value) {
+        var url='<#ROOTHTML#>ajax/vakio.html?op=public&id='+id+'&topic='+topic+'&value='+value;
+        
         $.ajax({
             type: 'GET',
             url: url,
             success: function(data){
-                data = data.toString().replace(/<!--.*?-->/gs, ""); // Удаление PERFOMANCE REPORT
-                var obj=jQuery.parseJSON(data);
-                console.log(obj);
-            
+                // pass
             }
         });
         return false;
     }
+
+    const regExpId = /\d+/g;
+    $("body").on("change", ".device-control, .stateSwitch", (e) => {
+        let select_id = e.currentTarget.id,
+            value = $(e.currentTarget).val(),
+            device_id = regExpId.exec(select_id)[0],
+            topic = select_id.replace(regExpId, "");
+        if (topic == "state") {
+            value = e.currentTarget.checked ? "on" : "off";
+        }
+        publish(device_id, topic, value);
+    })
+
 </script>
 
 <script>
@@ -87,7 +96,7 @@
                 for (var i of Object.keys(obj)) {
                     for (var j of Object.keys(obj[i])) {
                         let id = "#"+j+i;
-                        if (["temp", "hud", "co2"].includes(j)){
+                        if (["temp", "hud", "co2", "hum"].includes(j)){
                             $(id).text(obj[i][j]);
                             continue;
                         }
@@ -101,7 +110,7 @@
                 }
             }
         });
-    }, 3000); //try update every 3 seconds
+    }, 2000); //try update every 2 seconds
 </script>
 
 <div class="container-fluid">
@@ -139,6 +148,7 @@
                                             ℃
                                         </td>
                                     </tr>
+                                    [#if IS_HAS_CO2<1#]
                                     <tr>
                                         <td>Влажность</td>
                                         <td>
@@ -152,7 +162,21 @@
                                             %
                                         </td>
                                     </tr>
+                                    [#endif#]
                                     [#if IS_HAS_CO2>0#]
+                                    <tr>
+                                        <td>Влажность</td>
+                                        <td>
+                                            <span id="hum[#ID#]">
+                                            [#if HUM#]
+                                                [#HUM#]
+                                            [#else#]
+                                                —
+                                            [#endif#]
+                                            </span>
+                                            %
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td>CO2</td>
                                         <td>
@@ -180,7 +204,7 @@
                                         <td>Состояние</td>
                                         <td>
                                             <div class="material-switch pull-right">
-                                                <input id="state[#ID#]" name="state[#ID#]" type="checkbox" [#if STATE=="on"#]checked[#endif#]/>
+                                                <input id="state[#ID#]" class="stateSwitch" name="state[#ID#]" type="checkbox" [#if STATE=="on"#]checked[#endif#]/>
                                                 <label for="state[#ID#]" class="label-primary"></label>
                                             </div>
                                         </td>
@@ -190,7 +214,7 @@
                                     <tr>
                                         <td>Заслонка</td>
                                         <td>
-                                            <select name="gate[#ID#]" id="gate[#ID#]" class="form-control">
+                                            <select name="gate[#ID#]" id="gate[#ID#]" class="form-control device-control">
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -204,7 +228,7 @@
                                     <tr>
                                         <td>Скорость</td>
                                         <td>
-                                            <select name="speed[#ID#]" id="speed[#ID#]" class="form-control">
+                                            <select name="speed[#ID#]" id="speed[#ID#]" class="form-control device-control">
                                                 <option value="0">0</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -217,7 +241,7 @@
                                     <tr>
                                         <td>Режим</td>
                                         <td>
-                                            <select name="workmode[#ID#]" id="workmode[#ID#]" class="form-control">
+                                            <select name="workmode[#ID#]" id="workmode[#ID#]" class="form-control device-control">
                                                 <option value="super_auto">Авто</option>
                                                 <option value="manual">Ручной</option>
                                             </select>
@@ -229,7 +253,7 @@
                                     <tr>
                                         <td>Скорость</td>
                                         <td>
-                                            <select name="speed[#ID#]" id="speed[#ID#]" class="form-control">
+                                            <select name="speed[#ID#]" id="speed[#ID#]" class="form-control device-control">
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -243,7 +267,7 @@
                                     <tr>
                                         <td>Режим</td>
                                         <td>
-                                            <select name="workmode[#ID#]" id="workmode[#ID#]" class="form-control">
+                                            <select name="workmode[#ID#]" id="workmode[#ID#]" class="form-control device-control">
                                                 <option value="inflow">Приток</option>
                                                 <option value="inflow_max">Приток MAX</option>    
                                                 <option value="recuperator">Рекуперация лето</option>    
