@@ -50,7 +50,7 @@
 
 ### <a name="setup"></a> 3.2. Альтернативный способ
 1. Скачайте [модуль](https://github.com/Anti-Sh/vakio_smart_control/releases/download/majordomo/vakio_smart_control.tar.gz).
-2. Перейдите в папку C:\_majordomo\htdocs\ (Windows) или /var/www/html/ (Linux).
+2. Перейдите в директорию "C:\\_majordomo\htdocs\" (Windows) или "/var/www/html/" (Linux).
 3. Перенесите содержимое архива в папку из п.2.
 4. В Majordomo перейдите в **Панель управления** -> **Модули** -> **Vakio Smart Control** -> Кнопка "Карандаш" -> Переустановить.
 5. Во вкладке "Устройства" нажмите на "Vakio Smart Control", затем, "Настроить".
