@@ -132,6 +132,7 @@ function procmsg($topic, $msg) {
    $rec["VAKIO_DEVICE_STATE"] = json_encode($state);
    SQLUpdate("vakio_devices", $rec);
    $info = SQLSelectOne('SELECT * FROM vakio_info WHERE DEVICE_ID="'.$rec['ID'].'" AND TITLE="'.$endpoint.'"');
+   if(is_null($info)) return;
    if($msg == "on") $msg = 1;
    else if($msg == "off") $msg = 0;
    if($info['VALUE'] != $msg){
